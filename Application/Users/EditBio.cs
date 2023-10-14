@@ -29,7 +29,7 @@ public class EditBio
             var user = await _context.Users.FirstOrDefaultAsync(
                 entity => entity.UserName == _userAccessor.GetUsername());
 
-            user.Bio = request.Bio;
+            if (user != null) user.Bio = request.Bio;
 
             var result = await _context.SaveChangesAsync() > 0;
 
