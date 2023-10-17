@@ -1,4 +1,5 @@
 using Domain;
+using Domain.Product;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,8 @@ public class DataContext : IdentityDbContext<User>
     {
     }
 
-    public DbSet<Image> Images { get; set; }
+    
+    public DbSet<MockProduct> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
