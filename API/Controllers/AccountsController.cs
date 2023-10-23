@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using API.DTOs.User;
+using API.DTOs.Accounts;
 using API.Services;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -31,13 +31,13 @@ public class AccountsController : ControllerBase
 
     [HttpPost]
     [Route("[Action]")]
-    public async Task<ActionResult<UserDTO>> Login(Login login)
+    public async Task<ActionResult<LoginResponseDTO>> Login(LoginRequestDTO loginRequestDto)
     {
-        var user = await _userManager.FindByEmailAsync(login.Email);
+        var user = await _userManager.FindByEmailAsync(loginRequestDto.Email);
 
         if (user == null) return Unauthorized();
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
+        var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequestDto.Password, false);
 
         if (result.Succeeded)
         {
@@ -61,25 +61,25 @@ public class AccountsController : ControllerBase
 
     [HttpPost]
     [Route("[Action]")]
-    public async Task<ActionResult<UserDTO>> Register(Register register)
+    public async Task<ActionResult<LoginResponseDTO>> Register(RegisterRequestDTO registerRequestDto)
     {
-        if (await _userManager.Users.AnyAsync(user => user.Email == register.Email))
+        if (await _userManager.Users.AnyAsync(user => user.Email == registerRequestDto.Email))
             ModelState.AddModelError("email", "This email address already exists");
 
-        if (await _userManager.Users.AnyAsync(user => user.UserName == register.UserName))
+        if (await _userManager.Users.AnyAsync(user => user.UserName == registerRequestDto.UserName))
             ModelState.AddModelError("username", "This username already exists");
 
         if (ModelState.ErrorCount != 0) return ValidationProblem();
 
         var user = new User
         {
-            UserName = register.UserName,
-            Email = register.Email,
-            Name = register.Name,
-            Address = register.Address
+            UserName = registerRequestDto.UserName,
+            Email = registerRequestDto.Email,
+            Name = registerRequestDto.Name,
+            Address = registerRequestDto.Address
         };
 
-        var result = await _userManager.CreateAsync(user, register.Password);
+        var result = await _userManager.CreateAsync(user, registerRequestDto.Password);
         if (result.Succeeded) return CreateUserDto(user);
 
         return BadRequest("Problem registering user");
@@ -88,15 +88,15 @@ public class AccountsController : ControllerBase
     [Authorize]
     [HttpGet]
     [Route("[Action]")]
-    public async Task<ActionResult<UserDTO>> GetCurrentUser()
+    public async Task<ActionResult<LoginResponseDTO>> GetCurrentUser()
     {
         var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
         return CreateUserDto(user);
     }
 
-    private UserDTO CreateUserDto(User user)
+    private LoginResponseDTO CreateUserDto(User user)
     {
-        var userDto = new UserDTO
+        var userDto = new LoginResponseDTO
         {
             Name = user.Name,
             Address = user.Address,
