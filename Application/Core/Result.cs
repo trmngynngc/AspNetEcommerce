@@ -1,3 +1,5 @@
+using Domain.Product;
+
 namespace Application.Core;
 
 public class Result<T>
