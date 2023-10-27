@@ -1,6 +1,6 @@
-namespace API.DTOs.User;
+namespace API.DTOs.Accounts;
 
-public class UserDTO
+public class LoginResponseDTO
 {
     public string Name { get; set; }
     public string Token { get; set; }

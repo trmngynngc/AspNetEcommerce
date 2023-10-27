@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API.DTOs.User;
+namespace API.DTOs.Accounts;
 
-public class Register
+public class RegisterRequestDTO
 {
     [Required]
-    [RegularExpression("^[a-zA-Z0-9]{4,8}$", ErrorMessage = "Username should contain only letters and numbers")]
+    [RegularExpression("^[a-zA-Z0-9]{4,8}$", ErrorMessage = "Username should contain only letters and numbers between 4 and 8 characters in length")]
     public string UserName { get; set; }
 
     [Required] [EmailAddress] public string Email { get; set; }

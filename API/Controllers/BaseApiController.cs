@@ -23,21 +23,4 @@ public class BaseApiController : ControllerBase
         return Ok(result.Value);
     }
 
-    protected ActionResult HandlePagedResult<T>(Result<PagedList<T>>? result)
-    {
-        if (result?.Value == null) return NotFound();
-
-        if (!result.IsSuccess) return BadRequest(result.Error);
-
-        var value = result.Value;
-
-        Response.AddPaginationHeader(
-            value.CurrentPage,
-            value.PageSize,
-            value.TotalCount,
-            value.TotalPages
-        );
-
-        return Ok(value);
-    }
 }
