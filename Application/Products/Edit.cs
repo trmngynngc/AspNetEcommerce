@@ -23,6 +23,9 @@ public class Edit
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var mockProduct = await _context.Products.FindAsync(request.MockProduct.Id);
+
+            mockProduct.productName = request.MockProduct.productName ?? mockProduct.productName;
+            
             await _context.SaveChangesAsync();
             
             return Unit.Value;

@@ -20,7 +20,7 @@ public class ProductsController : BaseApiController
     }
 
     [HttpGet("{id}")]
-    public async Task<Result<MockProduct>> GetMockProduct(Guid id)
+    public async Task<MockProduct> GetMockProduct(Guid id)
     {
         return await Mediator.Send(new Details.Query{Id = id});
     }
