@@ -7,16 +7,15 @@ namespace API.Controllers.CMS;
 public class ProductsController : CmsApiController
 {
     [HttpPost]
-    public async Task<IActionResult> CreateProduct(Product product)
+    public async Task<IActionResult> CreateProduct(CreateProductRequestDTO product)
     {
-        return HandleResult(await Mediator.Send(new Create.Command { Product = product }));
+        return HandleResult(await Mediator.Send(new Create.Command { Product =  product}));
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> EditProduct(Guid id, Product product)
+    public async Task<IActionResult> EditProduct(Guid id, EditProductRequestDTO product)
     {
-        product.Id = id;
-        return HandleResult(await Mediator.Send(new Edit.Command { Product = product }));
+        return HandleResult(await Mediator.Send(new Edit.Command { Id = id, Product = product }));
     }
 
     [HttpDelete("{id}")]

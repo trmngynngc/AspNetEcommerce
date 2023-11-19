@@ -1,4 +1,5 @@
 using Application.Core;
+using AutoMapper;
 using Domain.Product;
 using MediatR;
 using Persistence;
@@ -9,23 +10,27 @@ public class Edit
 {
     public class Command : IRequest<Result<Unit>>
     {
-        public Product Product { get; set; }
+        public Guid Id { get; set; }
+        public EditProductRequestDTO Product { get; set; }
     }
     
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
-        public Handler(DataContext context)
+        private readonly IMapper _mapper;
+
+        public Handler(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.FindAsync(request.Product.Id);
+            var product = await _context.Products.FindAsync(request.Id);
 
-            product.productName = request.Product.productName ?? product.productName;
-            
+            _mapper.Map(request.Product, product);
+
             await _context.SaveChangesAsync();
 
             return Result<Unit>.Success(Unit.Value);

@@ -73,6 +73,7 @@ builder.Services
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddMediatR(typeof(EditBio.Handler).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 
 var app = builder.Build();

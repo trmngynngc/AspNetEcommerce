@@ -1,4 +1,4 @@
-﻿namespace Application.Core;
+﻿namespace Domain.Pagination;
 
 public class Pagination
 {

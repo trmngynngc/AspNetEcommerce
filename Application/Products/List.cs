@@ -1,19 +1,19 @@
 using Application.Core;
+using Domain.Pagination;
 using Domain.Product;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Products;
 
 public class List
 {
-   public class Query : IRequest<Result<PagedList<Product>>>
+   public class Query : IRequest<Result<ListProductResponseDTO>>
    {
       public PagingParams QueryParams { get; set; }
    }
    
-   public class Handler : IRequestHandler<Query, Result<PagedList<Product>>>
+   public class Handler : IRequestHandler<Query, Result<ListProductResponseDTO>>
    {
       private readonly DataContext _context;
 
@@ -22,12 +22,12 @@ public class List
          _context = context;
       }
 
-      public async Task<Result<PagedList<Product>>> Handle(Query request, CancellationToken cancellationToken)
+      public async Task<Result<ListProductResponseDTO>> Handle(Query request, CancellationToken cancellationToken)
       {
         var query = _context.Products.AsQueryable();
-        var products = await PagedList<Product>.CreateAsync(query, request.QueryParams.PageNumber, request.QueryParams.PageSize);
+        var products = new ListProductResponseDTO(query, request.QueryParams.PageNumber, request.QueryParams.PageSize);
 
-        return Result<PagedList<Product>>.Success(products);
+        return Result<ListProductResponseDTO>.Success(products);
       }
    }
 }
