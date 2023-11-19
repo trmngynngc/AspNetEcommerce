@@ -7,12 +7,12 @@ namespace Application.Products;
 
 public class Edit
 {
-    public class Command : IRequest<Unit>
+    public class Command : IRequest<Result<Unit>>
     {
-        public MockProduct MockProduct { get; set; }
+        public Product Product { get; set; }
     }
     
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
         public Handler(DataContext context)
@@ -20,15 +20,15 @@ public class Edit
             _context = context;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var mockProduct = await _context.Products.FindAsync(request.MockProduct.Id);
+            var product = await _context.Products.FindAsync(request.Product.Id);
 
-            mockProduct.productName = request.MockProduct.productName ?? mockProduct.productName;
+            product.productName = request.Product.productName ?? product.productName;
             
             await _context.SaveChangesAsync();
-            
-            return Unit.Value;
+
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

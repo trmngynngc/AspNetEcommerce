@@ -1,6 +1,6 @@
 namespace Domain.Product;
 
-public class MockProduct
+public class Product
 {
    public Guid Id { get; set; }
    public decimal price { get; set; }

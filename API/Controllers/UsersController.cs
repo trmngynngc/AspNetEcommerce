@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class UsersController : BaseApiController
+public class UsersController : ApiController
 {
     [HttpPut]
     public async Task<IActionResult> UpdateBio([FromBody] string bio)

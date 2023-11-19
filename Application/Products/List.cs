@@ -8,12 +8,12 @@ namespace Application.Products;
 
 public class List
 {
-   public class Query : IRequest<List<MockProduct>>
+   public class Query : IRequest<Result<PagedList<Product>>>
    {
       public PagingParams QueryParams { get; set; }
    }
    
-   public class Handler : IRequestHandler<Query, List<MockProduct>>
+   public class Handler : IRequestHandler<Query, Result<PagedList<Product>>>
    {
       private readonly DataContext _context;
 
@@ -22,11 +22,12 @@ public class List
          _context = context;
       }
 
-      public async Task<List<MockProduct>> Handle(Query request, CancellationToken cancellationToken)
+      public async Task<Result<PagedList<Product>>> Handle(Query request, CancellationToken cancellationToken)
       {
-        var products = await _context.Products.ToListAsync();
+        var query = _context.Products.AsQueryable();
+        var products = await PagedList<Product>.CreateAsync(query, request.QueryParams.PageNumber, request.QueryParams.PageSize);
 
-        return products;
+        return Result<PagedList<Product>>.Success(products);
       }
    }
 }

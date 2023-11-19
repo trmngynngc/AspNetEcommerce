@@ -40,7 +40,7 @@ namespace Persistence.Migrations
                     b.ToTable("Image");
                 });
 
-            modelBuilder.Entity("Domain.Product.MockProduct", b =>
+            modelBuilder.Entity("Domain.Product.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
