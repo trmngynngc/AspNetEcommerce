@@ -1,6 +1,4 @@
 using Application.Core;
-using Domain.Pagination;
-using Domain.Product;
 using MediatR;
 using Persistence;
 

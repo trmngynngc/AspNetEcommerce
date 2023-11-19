@@ -1,8 +1,7 @@
-﻿namespace Domain.Product;
+﻿namespace Application.Products;
 
-public class EditProductRequestDTO
+public class CreateProductRequestDTO
 {
    public decimal price { get; set; }
    public string productName { get; set; }
-
 }

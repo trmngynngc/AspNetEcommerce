@@ -1,4 +1,6 @@
-﻿namespace Domain.Product;
+﻿using Domain.Product;
+
+namespace Application.Products;
 
 public class GetProductResponseDTO
 {

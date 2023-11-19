@@ -1,5 +1,5 @@
+using Application.Core;
 using Application.Products;
-using Domain.Pagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

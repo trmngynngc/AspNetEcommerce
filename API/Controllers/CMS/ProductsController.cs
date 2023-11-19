@@ -1,5 +1,4 @@
 ﻿using Application.Products;
-using Domain.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.CMS;

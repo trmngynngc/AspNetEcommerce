@@ -1,4 +1,4 @@
-namespace Domain.Pagination;
+namespace Application.Core;
 
 public class PagingParams
 {
