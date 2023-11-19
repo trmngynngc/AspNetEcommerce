@@ -25,7 +25,9 @@ public class List
       public async Task<Result<ListProductResponseDTO>> Handle(Query request, CancellationToken cancellationToken)
       {
         var query = _context.Products.AsQueryable();
-        var products = new ListProductResponseDTO(query, request.QueryParams.PageNumber, request.QueryParams.PageSize);
+
+        var products = new ListProductResponseDTO();
+        await products.GetItemsAsync(query, request.QueryParams.PageNumber, request.QueryParams.PageSize);
 
         return Result<ListProductResponseDTO>.Success(products);
       }
