@@ -28,6 +28,11 @@ public class Edit
         {
             var category = await _context.Categories.FindAsync(request.Id);
 
+            if (category == null)
+            {
+                return null;
+            }
+
             _mapper.Map(request.Category, category);
 
             await _context.SaveChangesAsync();

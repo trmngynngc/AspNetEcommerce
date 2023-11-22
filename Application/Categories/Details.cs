@@ -1,5 +1,4 @@
 using Application.Core;
-using Domain.Product;
 using MediatR;
 using Persistence;
 
@@ -23,7 +22,14 @@ public class Details
 
         public async Task<Result<GetCategoryResponseDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return Result<GetCategoryResponseDTO>.Success(new GetCategoryResponseDTO(){ Category = await _context.Categories.FindAsync(request.Id) });
+            var category = await _context.Categories.FindAsync(request.Id);
+
+            if (category == null)
+            {
+                return null;
+            }
+
+            return Result<GetCategoryResponseDTO>.Success(new GetCategoryResponseDTO() { Category = category });
         }
     }
 }
