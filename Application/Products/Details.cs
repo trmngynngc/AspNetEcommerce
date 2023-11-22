@@ -23,7 +23,14 @@ public class Details
 
         public async Task<Result<GetProductResponseDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return Result<GetProductResponseDTO>.Success(new GetProductResponseDTO { Product = await _context.Products.FindAsync(request.Id) });
+            var product = await _context.Products.FindAsync(request.Id);
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            return Result<GetProductResponseDTO>.Success(new GetProductResponseDTO { Product = product });
         }
     }
 }

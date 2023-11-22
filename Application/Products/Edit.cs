@@ -13,7 +13,7 @@ public class Edit
         public Guid Id { get; set; }
         public EditProductRequestDTO Product { get; set; }
     }
-    
+
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
@@ -28,6 +28,11 @@ public class Edit
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var product = await _context.Products.FindAsync(request.Id);
+
+            if (product == null)
+            {
+                return null;
+            }
 
             _mapper.Map(request.Product, product);
 
