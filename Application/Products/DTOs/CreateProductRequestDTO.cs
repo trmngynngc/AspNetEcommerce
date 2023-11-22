@@ -1,13 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Domain.Product.Category;
 
 namespace Application.Products;
 
 public class CreateProductRequestDTO
 {
+    [Required]
     public string Name { get; set; }
+
+    [Range(0.0, double.MaxValue, ErrorMessage = "Price must be not be negative")]
     public decimal Price { get; set; }
+
+    [Range(0.0, double.MaxValue, ErrorMessage = "Discount must be not be negative")]
     public decimal Discount { get; set; }
+
     public string Thumbnail { get; set; }
     public string? Description { get; set; }
     public DateTime CreateDateTime { get; set; }
