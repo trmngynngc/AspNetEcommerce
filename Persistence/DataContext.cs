@@ -12,12 +12,15 @@ public class DataContext : IdentityDbContext<User>
     {
     }
 
-
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Coupon> Coupons { get; set; }
+    public DbSet<UserCoupon> UserCoupons { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.Entity<UserCoupon>(entity => entity.HasKey(
+            userCoupon => new { userCoupon.UserId, userCoupon.CouponId }));
     }
 }
