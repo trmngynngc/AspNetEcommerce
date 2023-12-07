@@ -26,10 +26,7 @@ public class Create
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var item = await _context.CartDetails.FirstOrDefaultAsync(
-                entity => entity.CartId == request.CartDetails.CartId
-                          && entity.ProductId == request.CartDetails.ProductId
-            );
+            var item = await _context.CartDetails.FindAsync(request.CartDetails.CartId, request.CartDetails.ProductId);
 
             if (item == null)
             {

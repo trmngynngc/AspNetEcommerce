@@ -1,5 +1,6 @@
 using Domain;
 using Domain.Cart;
+using Domain.OrderDetail;
 using Domain.Product;
 using Domain.Product.Category;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<Coupon> Coupons { get; set; }
     public DbSet<UserCoupon> UserCoupons { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderDetail> OrderDetails { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartDetail> CartDetails { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
@@ -28,5 +30,8 @@ public class DataContext : IdentityDbContext<User>
 
         builder.Entity<CartDetail>(entity => entity.HasKey(
             cartDetail => new { cartDetail.CartId, cartDetail.ProductId }));
+
+        builder.Entity<OrderDetail>(entity => entity.HasKey(
+            orderDetail => new { orderDetail.OrderId, orderDetail.ProductId }));
     }
 }
