@@ -1,8 +1,7 @@
 ﻿using Application.Core;
-using Domain;
 
 namespace Application.Orders;
 
-public class ListOrderResponseDTO : PagedList<Order>
+public class ListOrderResponseDTO : PagedList<Domain.Order>
 {
 }

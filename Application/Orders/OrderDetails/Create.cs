@@ -1,17 +1,17 @@
 ﻿using Application.Core;
+using Application.Order.OrderDetails;
 using AutoMapper;
-using Domain;
+using Domain.OrderDetail;
 using MediatR;
 using Persistence;
 
-namespace Application.Orders;
+namespace Application.Orders.OrderDetails;
 
-public class Edit
+public class Create
 {
     public class Command : IRequest<Result<Unit>>
     {
-        public Guid Id { get; set; }
-        public EditOrderRequestDTO Order { get; set; }
+        public CreateOrderDetailRequestDTO OrderDetail { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -27,20 +27,11 @@ public class Edit
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var order = await _context.Orders.FindAsync(request.Id);
-
-            if (order == null)
-            {
-                return null;
-            }
-
-            if (request.Order.Status == OrderStatus.Cancelled && order.Status!= OrderStatus.Preparing)
-            {
-                return Result<Unit>.Failure("Can't cancel");
-            }
-
-            _mapper.Map(request.Order, order);
-
+            var order = new OrderDetail();
+            _mapper.Map(request.OrderDetail, order);
+            var product = await _context.Products.FindAsync(request.OrderDetail.ProductId);
+            order.Price = product.Price;
+            _context.OrderDetails.Add(order);
             await _context.SaveChangesAsync();
 
             return Result<Unit>.Success(Unit.Value);

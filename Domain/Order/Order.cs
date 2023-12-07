@@ -8,6 +8,6 @@ public class Order
     public string PhoneNumber { get; set; }
     public string Address { get; set; }
     public string? Note { get; set; }
-    public DateTime OrderDate { get; set; }
-    public string Status { get; set; }
+    public DateTime OrderDate { get; set; } = DateTime.Now;
+    public OrderStatus Status { get; set; } = OrderStatus.Preparing;
 }
