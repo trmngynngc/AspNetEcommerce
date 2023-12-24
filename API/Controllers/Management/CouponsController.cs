@@ -3,15 +3,15 @@ using Application.Coupons;
 using Application.Coupons.UserCoupons;
 using Microsoft.AspNetCore.Mvc;
 using Create = Application.Coupons.Create;
-using Delete = Application.Coupons.Delete;
-using List = Application.Coupons.List;
 using CreateUserCoupon = Application.Coupons.UserCoupons.Create;
+using Delete = Application.Coupons.Delete;
 using DeleteUserCoupon = Application.Coupons.UserCoupons.Delete;
+using List = Application.Coupons.List;
 using ListUserCoupon = Application.Coupons.UserCoupons.List;
 
-namespace API.Controllers.CMS;
+namespace API.Controllers.Management;
 
-public class CouponsController : CmsApiController
+public class CouponsController : ManagementApiController
 {
     [HttpPost]
     public async Task<IActionResult> CreateCoupon(CreateCouponRequestDTO coupon)
@@ -32,7 +32,7 @@ public class CouponsController : CmsApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetCoupons([FromQuery] PagingParams pagingParams)
+    public async Task<ActionResult<ListCouponResponseDTO>> GetCoupons([FromQuery] PagingParams pagingParams)
     {
         return HandleResult(await Mediator.Send(new List.Query { QueryParams = pagingParams }));
     }
@@ -50,7 +50,7 @@ public class CouponsController : CmsApiController
     }
 
     [HttpGet("users")]
-    public async Task<IActionResult> GetUserCoupons([FromQuery] PagingParams pagingParams)
+    public async Task<ActionResult<ListUserCouponResponseDTO>> GetUserCoupons([FromQuery] PagingParams pagingParams)
     {
         return HandleResult(await Mediator.Send(new ListUserCoupon.Query { QueryParams = pagingParams }));
     }

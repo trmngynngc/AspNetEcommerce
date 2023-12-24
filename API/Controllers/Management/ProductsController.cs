@@ -1,9 +1,9 @@
 ﻿using Application.Products;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers.CMS;
+namespace API.Controllers.Management;
 
-public class ProductsController : CmsApiController
+public class ProductsController : ManagementApiController
 {
     [HttpPost]
     public async Task<IActionResult> CreateProduct(CreateProductRequestDTO product)

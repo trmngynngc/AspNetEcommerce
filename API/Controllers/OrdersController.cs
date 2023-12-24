@@ -20,7 +20,7 @@ public class OrdersController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetOrders([FromQuery] PagingParams pagingParams)
+    public async Task<ActionResult<ListOrderResponseDTO>> GetOrders([FromQuery] PagingParams pagingParams)
     {
         return HandleResult(await Mediator.Send(new List.Query { QueryParams = pagingParams }));
     }
