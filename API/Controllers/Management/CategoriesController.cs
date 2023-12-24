@@ -1,9 +1,9 @@
 ﻿using Application.Categories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers.CMS;
+namespace API.Controllers.Management;
 
-public class CategoriesController: CmsApiController
+public class CategoriesController: ManagementApiController
 {
     [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequestDTO category)
