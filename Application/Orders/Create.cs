@@ -1,7 +1,6 @@
 ﻿using Application.Core;
 using Application.Order.OrderDetails;
 using AutoMapper;
-using Domain;
 using MediatR;
 using Persistence;
 
@@ -29,7 +28,7 @@ public class Create
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var order = new Domain.Order();
+            var order = new Domain.Order.Order();
             _mapper.Map(request.OrderDto.Order, order);
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();

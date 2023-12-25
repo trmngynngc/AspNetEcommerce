@@ -1,7 +1,7 @@
 ﻿using Application.Core;
 using Application.Order.OrderDetails;
 using AutoMapper;
-using Domain.OrderDetail;
+using Domain.Order;
 using MediatR;
 using Persistence;
 

@@ -1,4 +1,4 @@
-﻿namespace Domain.OrderDetail;
+﻿namespace Domain.Order;
 
 public class OrderDetail
 {

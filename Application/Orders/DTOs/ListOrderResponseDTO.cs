@@ -2,6 +2,6 @@
 
 namespace Application.Orders;
 
-public class ListOrderResponseDTO : PagedList<Domain.Order>
+public class ListOrderResponseDTO : PagedList<Domain.Order.Order>
 {
 }

@@ -1,6 +1,6 @@
 using Application.Core;
 using AutoMapper;
-using Domain.Product.Category;
+using Domain.Product;
 using MediatR;
 using Persistence;
 

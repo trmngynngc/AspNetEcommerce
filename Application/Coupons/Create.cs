@@ -1,6 +1,6 @@
 using Application.Core;
 using AutoMapper;
-using Domain;
+using Domain.Coupon;
 using MediatR;
 using Persistence;
 

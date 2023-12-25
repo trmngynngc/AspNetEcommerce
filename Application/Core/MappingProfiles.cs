@@ -1,11 +1,12 @@
-﻿using Application.Categories;
+﻿using Application.Cart.CartDetails;
+using Application.Categories;
 using Application.Coupons;
 using Application.Coupons.UserCoupons;
 using Application.Products;
 using AutoMapper;
-using Domain;
+using Domain.Cart;
+using Domain.Coupon;
 using Domain.Product;
-using Domain.Product.Category;
 
 namespace Application.Core;
 
@@ -15,6 +16,7 @@ public class MappingProfiles : Profile
     {
         CreateProductMaps();
         CreateCategoryMaps();
+        CreateCartMaps();
         CreateCouponMaps();
     }
 
@@ -28,6 +30,11 @@ public class MappingProfiles : Profile
     {
         CreateMap<CreateCategoryRequestDTO, Category>();
         CreateMap<EditProductRequestDTO, Category>();
+    }
+
+    private void CreateCartMaps()
+    {
+        CreateMap<CreateCartDetailRequestDTO, CartDetail>();
     }
 
     private void CreateCouponMaps()

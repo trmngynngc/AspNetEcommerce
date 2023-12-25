@@ -1,5 +1,6 @@
 ﻿using Application.Core;
 using AutoMapper;
+using Domain.Coupon;
 using MediatR;
 using Persistence;
 
@@ -25,7 +26,7 @@ public class Create
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var userCoupon = new Domain.UserCoupon();
+            var userCoupon = new UserCoupon();
             _mapper.Map(request.UserCoupon, userCoupon);
             _context.UserCoupons.Add(userCoupon);
             await _context.SaveChangesAsync();

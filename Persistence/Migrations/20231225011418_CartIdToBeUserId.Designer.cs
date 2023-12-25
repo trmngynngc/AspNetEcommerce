@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231225011418_CartIdToBeUserId")]
+    partial class CartIdToBeUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.11");
@@ -29,16 +31,22 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Cart.CartDetail", b =>
                 {
-                    b.Property<string>("CartId")
+                    b.Property<Guid>("CartId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CartUserId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CartId", "ProductId");
+
+                    b.HasIndex("CartUserId");
 
                     b.HasIndex("ProductId");
 
@@ -441,7 +449,7 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Cart.Cart", "Cart")
                         .WithMany()
-                        .HasForeignKey("CartId")
+                        .HasForeignKey("CartUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

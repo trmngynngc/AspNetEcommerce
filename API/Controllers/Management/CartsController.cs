@@ -12,7 +12,7 @@ public class CartsController : ManagementApiController
     }
 
     [HttpDelete("Details")]
-    public async Task<IActionResult> DeleteCartDetail(Guid cartId, Guid productId)
+    public async Task<IActionResult> DeleteCartDetail(string cartId, Guid productId)
     {
         return HandleResult(await Mediator.Send((new Delete.Command { CartId = cartId, ProductId = productId})));
     }

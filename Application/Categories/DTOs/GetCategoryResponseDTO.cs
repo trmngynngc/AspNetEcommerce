@@ -1,4 +1,5 @@
-﻿using Domain.Product.Category;
+﻿using Domain.Product;
+
 namespace Application.Categories;
 
 public class GetCategoryResponseDTO

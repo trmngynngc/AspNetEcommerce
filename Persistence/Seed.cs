@@ -1,4 +1,5 @@
 using Domain;
+using Domain.Image;
 using Microsoft.AspNetCore.Identity;
 
 namespace Persistence;

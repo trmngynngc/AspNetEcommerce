@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,26 +11,28 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231224162607_IntroduceUserIdAndCouponIdToOrder")]
+    partial class IntroduceUserIdAndCouponIdToOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.11");
 
             modelBuilder.Entity("Domain.Cart.Cart", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("Domain.Cart.CartDetail", b =>
+            modelBuilder.Entity("Domain.CartDetail", b =>
                 {
-                    b.Property<string>("CartId")
+                    b.Property<Guid>("CartId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("ProductId")
@@ -45,7 +48,7 @@ namespace Persistence.Migrations
                     b.ToTable("CartDetails");
                 });
 
-            modelBuilder.Entity("Domain.Coupon.Coupon", b =>
+            modelBuilder.Entity("Domain.Coupon", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,22 +72,7 @@ namespace Persistence.Migrations
                     b.ToTable("Coupons");
                 });
 
-            modelBuilder.Entity("Domain.Coupon.UserCoupon", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("CouponId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("UserId", "CouponId");
-
-                    b.HasIndex("CouponId");
-
-                    b.ToTable("UserCoupons");
-                });
-
-            modelBuilder.Entity("Domain.Image.Image", b =>
+            modelBuilder.Entity("Domain.Image", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,7 +95,7 @@ namespace Persistence.Migrations
                     b.ToTable("Image");
                 });
 
-            modelBuilder.Entity("Domain.Order.Order", b =>
+            modelBuilder.Entity("Domain.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,7 +139,7 @@ namespace Persistence.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Domain.Order.OrderDetail", b =>
+            modelBuilder.Entity("Domain.OrderDetail.OrderDetail", b =>
                 {
                     b.Property<Guid>("OrderId")
                         .HasColumnType("TEXT");
@@ -172,7 +160,7 @@ namespace Persistence.Migrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("Domain.Product.Category", b =>
+            modelBuilder.Entity("Domain.Product.Category.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -309,6 +297,21 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.UserCoupon", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CouponId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "CouponId");
+
+                    b.HasIndex("CouponId");
+
+                    b.ToTable("UserCoupons");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -437,7 +440,7 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Cart.CartDetail", b =>
+            modelBuilder.Entity("Domain.CartDetail", b =>
                 {
                     b.HasOne("Domain.Cart.Cart", "Cart")
                         .WithMany()
@@ -456,28 +459,9 @@ namespace Persistence.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Domain.Coupon.UserCoupon", b =>
+            modelBuilder.Entity("Domain.OrderDetail.OrderDetail", b =>
                 {
-                    b.HasOne("Domain.Coupon.Coupon", "Coupon")
-                        .WithMany()
-                        .HasForeignKey("CouponId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Coupon");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Order.OrderDetail", b =>
-                {
-                    b.HasOne("Domain.Order.Order", "Order")
+                    b.HasOne("Domain.Order", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -496,7 +480,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Product.Product", b =>
                 {
-                    b.HasOne("Domain.Product.Category", "Category")
+                    b.HasOne("Domain.Product.Category.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
@@ -505,11 +489,30 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.User", b =>
                 {
-                    b.HasOne("Domain.Image.Image", "Avatar")
+                    b.HasOne("Domain.Image", "Avatar")
                         .WithMany()
                         .HasForeignKey("AvatarId");
 
                     b.Navigation("Avatar");
+                });
+
+            modelBuilder.Entity("Domain.UserCoupon", b =>
+                {
+                    b.HasOne("Domain.Coupon", "Coupon")
+                        .WithMany()
+                        .HasForeignKey("CouponId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Coupon");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

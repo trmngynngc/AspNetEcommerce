@@ -1,4 +1,4 @@
-﻿namespace Domain.Product.Category;
+﻿namespace Domain.Product;
 
 public class Category
 {

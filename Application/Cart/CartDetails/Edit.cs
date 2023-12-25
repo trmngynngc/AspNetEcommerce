@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using Application.Products;
 using AutoMapper;
 using MediatR;
 using Persistence;
@@ -10,8 +9,7 @@ public class Edit
 {
     public class Command : IRequest<Result<Unit>>
     {
-        public Guid Id { get; set; }
-        public EditProductRequestDTO Product { get; set; }
+        public EditCartDetailRequestDTO CartDetails { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -27,16 +25,17 @@ public class Edit
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.FindAsync(request.Id);
+            var item = await _context.CartDetails.FindAsync(request.CartDetails.CartId, request.CartDetails.ProductId);
 
-            if (product == null)
+            if (item == null)
             {
                 return null;
             }
-
-            _mapper.Map(request.Product, product);
-
-            await _context.SaveChangesAsync();
+            else
+            {
+                item.Quantity = request.CartDetails.Quantity;
+                await _context.SaveChangesAsync();
+            }
 
             return Result<Unit>.Success(Unit.Value);
         }

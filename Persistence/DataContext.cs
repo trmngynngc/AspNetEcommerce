@@ -1,8 +1,8 @@
 using Domain;
 using Domain.Cart;
-using Domain.OrderDetail;
+using Domain.Coupon;
+using Domain.Order;
 using Domain.Product;
-using Domain.Product.Category;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

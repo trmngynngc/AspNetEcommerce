@@ -1,6 +1,9 @@
-﻿namespace Domain.Cart;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Cart;
 
 public class Cart
 {
-    public Guid Id { get; set; }
+    [Key]
+    public string UserId { get; set; }
 }

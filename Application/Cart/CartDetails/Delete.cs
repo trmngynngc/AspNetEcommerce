@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Cart.CartDetails;
@@ -9,7 +8,7 @@ public class Delete
 {
     public class Command : IRequest<Result<Unit>>
     {
-        public Guid CartId { get; set; }
+        public string CartId { get; set; }
         public Guid ProductId { get; set; }
     }
 
