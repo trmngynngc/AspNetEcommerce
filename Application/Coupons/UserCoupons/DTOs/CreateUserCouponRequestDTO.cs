@@ -3,6 +3,6 @@
 public class CreateUserCouponRequestDTO
 {
     public Guid CouponId { get; set; }
-    public Guid UserId { get; set; }
+    public string UserId { get; set; }
 
 }

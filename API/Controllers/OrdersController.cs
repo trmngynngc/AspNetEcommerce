@@ -1,6 +1,7 @@
-﻿using Application.Core;
+﻿using Application.Order.OrderDetails;
 using Application.Orders;
 using Microsoft.AspNetCore.Mvc;
+using List = Application.Orders.OrderDetails.List;
 
 namespace API.Controllers;
 
@@ -20,8 +21,14 @@ public class OrdersController : ApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<ListOrderResponseDTO>> GetOrders([FromQuery] PagingParams pagingParams)
+    public async Task<ActionResult<ListOrderResponseDTO>> GetOrders([FromQuery] ListUserOrderRequestDTO pagingParams)
     {
-        return HandleResult(await Mediator.Send(new List.Query { QueryParams = pagingParams }));
+        return HandleResult(await Mediator.Send(new ListUserOrder.Query { QueryParams = pagingParams }));
+    }
+    
+    [HttpGet("{id}/Details")]
+    public async Task<ActionResult<ListOrderDetailResponseDTO>> GetOrderDetails(Guid orderId)
+    {
+        return HandleResult(await Mediator.Send(new List.Query { Id = orderId}));
     }
 }

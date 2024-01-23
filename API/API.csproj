@@ -24,4 +24,8 @@
         <ProjectReference Include="..\Infrastructure\Infrastructure.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Jsons\temp.json" />
+    </ItemGroup>
+
 </Project>
