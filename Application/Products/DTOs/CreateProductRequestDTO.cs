@@ -21,5 +21,5 @@ public class CreateProductRequestDTO
     [Range(0, int.MaxValue, ErrorMessage = "Quantity must be not be negative")]
     public int Stocks { get; set; }
 
-    public Guid CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
 }

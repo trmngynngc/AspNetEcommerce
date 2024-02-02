@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Controllers;
 
@@ -31,6 +32,7 @@ public class AccountsController : ControllerBase
 
     [HttpPost]
     [Route("[Action]")]
+    [SwaggerOperation(Summary = "Log a user in")]
     public async Task<ActionResult<LoginResponseDTO>> Login(LoginRequestDTO loginRequestDto)
     {
         var user = await _userManager.FindByEmailAsync(loginRequestDto.Email);
@@ -61,6 +63,7 @@ public class AccountsController : ControllerBase
 
     [HttpPost]
     [Route("[Action]")]
+    [SwaggerOperation(Summary = "Register a user in")]
     public async Task<ActionResult<LoginResponseDTO>> Register(RegisterRequestDTO registerRequestDto)
     {
         if (await _userManager.Users.AnyAsync(user => user.Email == registerRequestDto.Email))
@@ -88,6 +91,7 @@ public class AccountsController : ControllerBase
     [Authorize]
     [HttpGet]
     [Route("[Action]")]
+    [SwaggerOperation(Summary = "Get the Current User using a login token")]
     public async Task<ActionResult<LoginResponseDTO>> GetCurrentUser()
     {
         var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));

@@ -91,5 +91,19 @@ public class Seed
 
         await _context.SaveChangesAsync();
     }
+
+    public static async void CreateProducts()
+    {
+        
+    }
+    
+    public static async void CreateCategories() {
+        
+    }
+
+    public static async void CreateOrders()
+    {
+        
+    }
     
 }

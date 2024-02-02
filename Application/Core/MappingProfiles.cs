@@ -2,6 +2,7 @@
 using Application.Categories;
 using Application.Coupons;
 using Application.Coupons.UserCoupons;
+using Application.Orders;
 using Application.Products;
 using AutoMapper;
 using Domain.Cart;
@@ -42,6 +43,12 @@ public class MappingProfiles : Profile
         CreateMap<CreateCouponRequestDTO, Coupon>();
         CreateMap<EditCouponRequestDTO, Coupon>();
         CreateMap<CreateUserCouponRequestDTO, UserCoupon>();
+    }
+
+    private void CreateOrderMaps()
+    {
+        CreateMap<CreateOrderRequestDTO, Domain.Order.Order>();
+        CreateMap<EditOrderRequestDTO, Domain.Order.Order>();
     }
 
 }

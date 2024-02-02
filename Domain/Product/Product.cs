@@ -16,6 +16,6 @@ public class Product
     [Range(0, int.MaxValue, ErrorMessage = "Quantity must be not be negative")]
     public int Stocks { get; set; }
 
-    public Category? Category { get; set; }
     public Guid? CategoryId { get; set; }
+    public Category? Category { get; set; }
 }
