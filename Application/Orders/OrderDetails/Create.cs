@@ -27,11 +27,14 @@ public class Create
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var order = new OrderDetail();
-            _mapper.Map(request.OrderDetail, order);
+            var orderDetail = new OrderDetail();
+            _mapper.Map(request.OrderDetail, orderDetail);
+            
             var product = await _context.Products.FindAsync(request.OrderDetail.ProductId);
-            order.Price = product.Price;
-            _context.OrderDetails.Add(order);
+            orderDetail.Price = product.Price;
+            
+            _context.OrderDetails.Add(orderDetail);
+            
             await _context.SaveChangesAsync();
 
             return Result<Unit>.Success(Unit.Value);

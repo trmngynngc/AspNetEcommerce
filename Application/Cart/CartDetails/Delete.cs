@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.Interfaces;
 using MediatR;
 using Persistence;
 
@@ -8,22 +9,23 @@ public class Delete
 {
     public class Command : IRequest<Result<Unit>>
     {
-        public string CartId { get; set; }
-        public Guid ProductId { get; set; }
+        public DeleteCartDetailRequestDTO CartDetails { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
+        private readonly IUserAccessor _userAccessor;
 
-        public Handler(DataContext context)
+        public Handler(DataContext context, IUserAccessor userAccessor)
         {
             _context = context;
+            _userAccessor = userAccessor;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var cartDetail = await _context.CartDetails.FindAsync(request.CartId, request.ProductId);
+            var cartDetail = await _context.CartDetails.FindAsync(_userAccessor.GetUser().Id, request.CartDetails.ProductId);
 
             if (cartDetail == null)
             {

@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.Interfaces;
 using MediatR;
 using Persistence;
 
@@ -14,16 +15,18 @@ public class List
     public class Handler : IRequestHandler<Query, Result<ListCartDetailResponseDTO>>
     {
         private readonly DataContext _context;
+        private readonly IUserAccessor _userAccessor;
 
-        public Handler(DataContext context)
+        public Handler(DataContext context, IUserAccessor userAccessor)
         {
             _context = context;
+            _userAccessor = userAccessor;
         }
 
         public async Task<Result<ListCartDetailResponseDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
             var query = _context.CartDetails
-                .Where(cartDetail => cartDetail.CartId == request.QueryParams.CartId)
+                .Where(cartDetail => cartDetail.CartId == _userAccessor.GetUser().Id)
                 .AsQueryable();
 
             var cartItem = new ListCartDetailResponseDTO();

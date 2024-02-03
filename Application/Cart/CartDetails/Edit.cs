@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Persistence;
@@ -16,16 +17,18 @@ public class Edit
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IUserAccessor _userAccessor;
 
-        public Handler(DataContext context, IMapper mapper)
+        public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _userAccessor = userAccessor;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var item = await _context.CartDetails.FindAsync(request.CartDetails.CartId, request.CartDetails.ProductId);
+            var item = await _context.CartDetails.FindAsync(_userAccessor.GetUser().Id, request.CartDetails.ProductId);
 
             if (item == null)
             {

@@ -1,5 +1,6 @@
 using Domain;
 using Domain.Image;
+using Domain.Product;
 using Microsoft.AspNetCore.Identity;
 
 namespace Persistence;
@@ -14,6 +15,8 @@ public class Seed
     private static List<Image> _avatars;
 
     private static List<User> _users;
+    private static List<Category> _categories;
+    private static List<Product> _products;
 
     public static async Task SeedData(DataContext context, UserManager<User> userManager)
     {
@@ -27,8 +30,11 @@ public class Seed
         SeedUsers();
         SeedAvatars();
         CreateUsers();
+        
+        SeedProducts();
 
         context.AttachRange(_images);
+        context.AttachRange(_categories);
 
         await context.SaveChangesAsync();
     }
@@ -92,16 +98,74 @@ public class Seed
         await _context.SaveChangesAsync();
     }
 
-    public static async void CreateProducts()
+    public static void SeedProducts()
     {
+        SeedCategories();
         
+        var names = new List<string>
+        {
+            "Nike Air Force 1 NDESTRUKT",
+            "Nike Space Hippie 04",
+            "Nike Air Zoom Pegasus 37 A.I.R. Chaz Bear",
+            "Nike Blazer Low 77 Vintage",
+            "Nike ZoomX SuperRep Surge",
+            "Zoom Freak 2",
+            "Nike Air Max Zephyr",
+            "Jordan Delta",
+            "Air Jordan XXXV PF",
+            "Nike Waffle Racer Crater",
+            "Kyrie 7 EP Sisterhood",
+            "Nike Air Zoom BB NXT",
+            "Nike Air Force 1 07 LX",
+            "Nike Air Force 1 Shadow SE",
+            "Nike Air Zoom Tempo NEXT",
+            "Nike DBreak-Type",
+            "Nike Air Max Up",
+            "Nike Air Max 270 React ENG",
+            "NikeCourt Royale",
+            "Nike Air Zoom Pegasus 37 Premium",
+            "Nike Air Zoom SuperRep",
+            "NikeCourt Royale",
+            "Nike React Art3mis",
+            "Nike React Infinity Run Flyknit"
+        };
+        var desc =
+            "The Air Force 1 NDSTRKT blends unbelievable comfort with head-turning style and street-ready toughness to create an \'indestructible\' feel. In a nod to traditional work boots, the timeless silhouette comes covered in rubber reinforcements in high-wear areas. Lace up for tough conditions with this hardy take on a lifestyle classic.\nIntroduced in 1982, the Air Force 1 redefined basketball footwear from the hardwood to the tarmac. It was the first basketball sneaker to house Nike Air, but its innovative nature has since taken a back seat to its status as a street icon.";
+
+        _products = new List<Product>();
+
+        var start = new DateTime(2020, 1, 1);
+        var range = (DateTime.Today - start).Days;
+
+        for (int i = 0, len = names.Count; i < len; i++)
+        {
+            var product = new Product
+            {
+                Name = names[i],
+                Price = new decimal(_random.NextDouble() * 200),
+                Stocks = _random.Next(0, 20),
+                Description = desc,
+            };
+
+            var ran = _random.Next(3);
+            if (ran != 2)
+            {
+                product.Category = _categories[ran];
+            }
+
+            _products.Add(product);
+        }
     }
     
-    public static async void CreateCategories() {
-        
+    public static void SeedCategories() {
+        _categories = new List<Category>
+        {
+            new() { Name = "For Men" },
+            new() { Name = "For Women" }
+        };
     }
 
-    public static async void CreateOrders()
+    public static void SeedOrders()
     {
         
     }

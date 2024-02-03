@@ -17,5 +17,5 @@ public class Product
     public int Stocks { get; set; }
 
     public Guid? CategoryId { get; set; }
-    public Category? Category { get; set; }
+    public Category Category { get; set; }
 }

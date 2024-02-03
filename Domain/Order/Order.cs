@@ -4,7 +4,8 @@ public class Order
 {
     public Guid Id { get; set; }
     public string UserId { get; set; }
-    public string CouponId { get; set; }
+    public Guid? CouponId { get; set; }
+    public Coupon.Coupon Coupon { get; set; }
     public string FullName { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }

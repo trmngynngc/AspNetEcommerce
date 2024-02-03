@@ -12,6 +12,7 @@ public class CreateOrderRequestDTO
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string? Note { get; set; }
+        public Guid? CouponId { get; set; }
     }
 
     public class OrderDetailDto

@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.Interfaces;
 using Application.Order.OrderDetails;
 using AutoMapper;
 using MediatR;
@@ -17,18 +18,20 @@ public class Create
     {
         private readonly DataContext _context;
         private readonly IMediator _mediator;
+        private readonly IUserAccessor _userAccessor;
         private readonly IMapper _mapper;
 
-        public Handler(DataContext context, IMapper mapper, IMediator mediator)
+        public Handler(DataContext context, IMapper mapper, IMediator mediator, IUserAccessor userAccessor)
         {
             _context = context;
             _mediator = mediator;
+            _userAccessor = userAccessor;
             _mapper = mapper;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var order = new Domain.Order.Order();
+            var order = new Domain.Order.Order{UserId = _userAccessor.GetUser().Id};
             _mapper.Map(request.OrderDto.Order, order);
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();

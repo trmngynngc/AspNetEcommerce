@@ -28,8 +28,8 @@ public class CartsController : ApiController
 
     [HttpDelete("Details")]
     [SwaggerOperation(Summary = "Delete a Cart Details")]
-    public async Task<IActionResult> DeleteCartDetail(string cartId, Guid productId)
+    public async Task<IActionResult> DeleteCartDetail(DeleteCartDetailRequestDTO cartDetails)
     {
-        return HandleResult(await Mediator.Send((new Delete.Command { CartId = cartId, ProductId = productId})));
+        return HandleResult(await Mediator.Send((new Delete.Command {CartDetails = cartDetails})));
     }
 }
