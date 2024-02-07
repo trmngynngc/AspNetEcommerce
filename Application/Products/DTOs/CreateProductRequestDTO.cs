@@ -15,8 +15,6 @@ public class CreateProductRequestDTO
 
     public string Thumbnail { get; set; }
     public string? Description { get; set; }
-    public DateTime CreateDateTime { get; set; }
-    public DateTime UpdateDateTime { get; set; }
 
     [Range(0, int.MaxValue, ErrorMessage = "Quantity must be not be negative")]
     public int Stocks { get; set; }

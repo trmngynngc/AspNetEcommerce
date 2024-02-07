@@ -1,6 +1,5 @@
 using Application.Core;
 using AutoMapper;
-using Domain.Product;
 using MediatR;
 using Persistence;
 
@@ -35,6 +34,8 @@ public class Edit
             }
 
             _mapper.Map(request.Product, product);
+            
+            product.UpdateDateTime = DateTime.Now;
 
             await _context.SaveChangesAsync();
 
