@@ -33,7 +33,7 @@ public class MappingProfiles : Profile
     private void CreateCategoryMaps()
     {
         CreateMap<CreateCategoryRequestDTO, Category>();
-        CreateMap<EditProductRequestDTO, Category>();
+        CreateMap<EditCategoryRequestDTO, Category>();
     }
 
     private void CreateCartMaps()

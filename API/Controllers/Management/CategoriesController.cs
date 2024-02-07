@@ -13,11 +13,11 @@ public class CategoriesController: ManagementApiController
         return HandleResult(await Mediator.Send(new Create.Command { Category = category }));
     }
     
-    [HttpPut]
+    [HttpPut("{id}")]
     [SwaggerOperation(Summary = "Edit a Category")]
-    public async Task<IActionResult> EditCategory(EditCategoryRequestDTO category)
+    public async Task<IActionResult> EditCategory(Guid id, EditCategoryRequestDTO category)
     {
-        return HandleResult(await Mediator.Send(new Edit.Command { Category = category }));
+        return HandleResult(await Mediator.Send(new Edit.Command { Id = id, Category = category }));
     }
 
     [HttpDelete("{id}")]
