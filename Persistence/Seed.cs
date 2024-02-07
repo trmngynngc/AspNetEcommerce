@@ -1,5 +1,6 @@
 using Domain;
 using Domain.Image;
+using Domain.Order;
 using Domain.Product;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,7 +8,15 @@ namespace Persistence;
 
 public class Seed
 {
+    public static SeedingConfig SeedingConfig { get; set; } = new SeedingConfig
+    {
+        SeedUsers = false,
+        SeedProducts = false,
+        SeedOrders = true
+    };
+    
     private static readonly Random _random = new();
+    
     private static DataContext _context;
     private static UserManager<User> _userManager;
 
@@ -17,6 +26,8 @@ public class Seed
     private static List<User> _users;
     private static List<Category> _categories;
     private static List<Product> _products;
+    private static List<OrderDetail> _orderDetails;
+    private static List<Order> _orders;
 
     public static async Task SeedData(DataContext context, UserManager<User> userManager)
     {
@@ -27,14 +38,28 @@ public class Seed
 
         _avatars = SeedImages("/assets/images/avatars", "avatar", 24);
 
-        SeedUsers();
-        SeedAvatars();
-        CreateUsers();
-        
-        SeedProducts();
+        if (SeedingConfig.SeedUsers)
+        {
+            SeedUsers();
+            SeedAvatars();
+            CreateUsers();
+        }
+
+        if (SeedingConfig.SeedProducts)
+        {
+            SeedProducts();
+            context.AttachRange(_categories);
+            context.AttachRange(_products);
+        }
+
+        if (SeedingConfig.SeedOrders)
+        {
+            SeedOrders();
+            context.AttachRange(_orders);
+            context.AttachRange(_orderDetails);
+        }
 
         context.AttachRange(_images);
-        context.AttachRange(_categories);
 
         await context.SaveChangesAsync();
     }
@@ -167,7 +192,59 @@ public class Seed
 
     public static void SeedOrders()
     {
+        var user = _userManager.Users.FirstOrDefault();
         
+        _orders = new List<Order>
+        {
+            new()
+            {
+                UserId = user.Id,
+                FullName = "Customer 01",
+                Email = "customer01@example.com",
+                PhoneNumber = "01234",
+                Address = "fake street 01"
+            },
+            new()
+            {
+                UserId = user.Id,
+                FullName = "Customer 02",
+                Email = "customer02@example.com",
+                PhoneNumber = "56789",
+                Address = "fake street 02"
+            }
+        };
+        
+        _orderDetails = new List<OrderDetail>
+        {
+            new OrderDetail
+            {
+                Order = _orders[0],
+                Price = _products[0].Price,
+                Product = _products[0],
+                Quantity = 5
+            },
+            new OrderDetail
+            {
+                Order = _orders[0],
+                Price = _products[1].Price,
+                Product = _products[1],
+                Quantity = 2
+            },
+            new OrderDetail
+            {
+                Order = _orders[1],
+                Price = _products[3].Price,
+                Product = _products[3],
+                Quantity = 3
+            }
+        };
     }
     
+}
+
+public class SeedingConfig
+{
+    public bool SeedUsers { get; set; }
+    public bool SeedProducts { get; set; }
+    public bool SeedOrders { get; set; }
 }
