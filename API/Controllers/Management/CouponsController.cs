@@ -42,24 +42,24 @@ public class CouponsController : ManagementApiController
         return HandleResult(await Mediator.Send(new List.Query { QueryParams = pagingParams }));
     }
 
-    [HttpPost("users")]
+    [HttpPost("Users")]
     [SwaggerOperation(Summary = "Add an eligible User to a Coupon")]
     public async Task<IActionResult> CreateUserCoupon(CreateUserCouponRequestDTO userCoupon)
     {
         return HandleResult(await Mediator.Send(new CreateUserCoupon.Command { UserCoupon = userCoupon }));
     }
 
-    [HttpDelete("users")]
+    [HttpDelete("Users")]
     [SwaggerOperation(Summary = "Remove a User from a Coupon")]
-    public async Task<IActionResult> DeleteUserCoupon(Guid couponId, Guid userId)
+    public async Task<IActionResult> DeleteUserCoupon(Guid couponId, string userId)
     {
         return HandleResult(await Mediator.Send((new DeleteUserCoupon.Command { CouponId = couponId, UserId = userId})));
     }
 
-    [HttpGet("users")]
+    [HttpGet("{id}/Users")]
     [SwaggerOperation(Summary = "List Users eligible to use a Coupon")]
-    public async Task<ActionResult<ListUserCouponResponseDTO>> GetUserCoupons([FromQuery] PagingParams pagingParams)
+    public async Task<ActionResult<ListUserCouponResponseDTO>> GetUserCoupons(Guid id, [FromQuery] PagingParams pagingParams)
     {
-        return HandleResult(await Mediator.Send(new ListUserCoupon.Query { QueryParams = pagingParams }));
+        return HandleResult(await Mediator.Send(new ListUserCoupon.Query { Id = id, QueryParams = pagingParams }));
     }
 }
