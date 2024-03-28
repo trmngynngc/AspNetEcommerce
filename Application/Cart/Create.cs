@@ -1,5 +1,4 @@
 ﻿using Application.Core;
-using AutoMapper;
 using MediatR;
 using Persistence;
 
@@ -23,7 +22,7 @@ public class Create
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var cart = new Domain.Cart.Cart();
+            var cart = new Domain.Cart.Cart{UserId = request.UserId};
             _context.Carts.Add(cart);
             await _context.SaveChangesAsync();
 

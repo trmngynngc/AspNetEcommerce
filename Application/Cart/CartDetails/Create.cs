@@ -34,6 +34,7 @@ public class Create
             if (item == null)
             {
                 item = new CartDetail();
+                item.CartId = _userAccessor.GetUser().Id;
                 _mapper.Map(request.CartDetails, item);
                 _context.Add(item);
             }

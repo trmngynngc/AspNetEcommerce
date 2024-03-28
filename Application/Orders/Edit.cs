@@ -34,7 +34,7 @@ public class Edit
                 return null;
             }
 
-            if (request.Order.Status == OrderStatus.Cancelled && order.Status!= OrderStatus.Preparing)
+            if (request.Order.Status == OrderStatus.Cancelled && order.Status != OrderStatus.Preparing)
             {
                 return Result<Unit>.Failure("Can't cancel");
             }
