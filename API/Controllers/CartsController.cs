@@ -13,6 +13,13 @@ public class CartsController : ApiController
         return HandleResult(await Mediator.Send(new List.Query { QueryParams = pagingParams }));
     }
     
+    [HttpGet("Count")]
+    [SwaggerOperation(Summary = "Count Cart Details of a User")]
+    public async Task<ActionResult<CountCartDetailResponseDTO>> CountCartDetails()
+    {
+        return HandleResult(await Mediator.Send(new Count.Query()));
+    }
+    
     [HttpPost("Details")]
     [SwaggerOperation(Summary = "Create a Cart Details")]
     public async Task<IActionResult> CreateCartDetail(CreateCartDetailRequestDTO cartDetail)
