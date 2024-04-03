@@ -1,6 +1,7 @@
 ﻿using Application.Core;
 using Application.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Cart.CartDetails;
@@ -27,6 +28,7 @@ public class List
         {
             var query = _context.CartDetails
                 .Where(cartDetail => cartDetail.CartId == _userAccessor.GetUser().Id)
+                .Include(cartDetail => cartDetail.Product)
                 .AsQueryable();
 
             var cartItem = new ListCartDetailResponseDTO();
